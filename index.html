@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="intro-screen">
+        <div class="intro-content">
+            <h2>Hello, Citraa...</h2>
+            <button id="open-btn">Click to Open 💌</button>
+        </div>
+    </div>
+
+<canvas id="snow"></canvas>
+    <style>
+        #snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10; 
+            pointer-events: none; 
+        }
+    </style>
+    <script>
+        const canvas = document.getElementById("snow");
+        const ctx = canvas.getContext("2d");
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        for (let i = 0; i < 70; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                r: Math.random() * 2 + 0.5, 
+                d: Math.random() * 50, 
+                speed: Math.random() * 1 + 0.3 
+            });
+        }
+
+        let angle = 0;
+        function animateSnow() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = "rgba(255, 255, 255, 0.6)"; 
+            ctx.beginPath();
+            
+            angle += 0.01;
+            
+            particles.forEach(p => {
+                ctx.moveTo(p.x, p.y);
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                p.y += p.speed;
+                p.x += Math.sin(angle + p.d) * 0.5;
+                
+                if (p.y > height) {
+                    p.y = -10;
+                    p.x = Math.random() * width;
+                }
+            });
+            
+            ctx.fill();
+            requestAnimationFrame(animateSnow);
+        }
+        animateSnow();
+    </script>
+
+    <nav class="navbar">
+        <a href="#photos" class="nav-btn">PHOTOS</a>
+        <a href="#home" class="nav-btn">HOME</a>
+        <a href="#song" class="nav-btn">SONG</a>
+    </nav>
+
+    <section id="home">
+        <div class="hero-container">
+            <h1 class="title-bg">HAPPY BIRTHDAY</h1>
+            
+            <div class="hero-content">
+                <p class="side-text left-text">
+                    Happy Birthday Citraa 🤍, Semoga di umur ini kamu diberi hal-hal baik, mimpi yang perlahan tercapai,dijauhkan dari perlakuan buruk, dan banyak alasan untuk tersenyum. -dika
+                </p>
+                
+                <img src="C:\Users\andik\Downloads\citra\image\roses.png" alt="Roses" class="center-img">
+                
+                <p class="side-text right-text">
+                    may this year be better for you, gentler on your heart, and filled with little moments that make your life feel beautiful. you deserve happiness, peace, and all the good things that are slowly coming into your life.
+                </p>
+            </div>
+
+            <h1 class="title-fg">HAPPY BIRTHDAY</h1>
+        </div>
+    </section>
+
+    <section id="photos">
+        <h2 class="section-title">PHOTOS</h2>
+        <div class="photo-grid">
+            <div class="polaroid">
+                <img src="C:\Users\andik\Downloads\citra\image\photo1.png" alt="Photo 1">
+            </div>
+            <div class="polaroid">
+                <img src="C:\Users\andik\Downloads\citra\image\photo2.png" alt="Photo 2">
+            </div>
+            <div class="polaroid">
+                <img src="C:\Users\andik\Downloads\citra\image\photo3.png" alt="Photo 3">
+            </div>
+        </div>
+        <p class="bottom-text">
+           Just us, in our little world.
+        </p>
+    </section>
+
+    <section id="song">
+        <h2 class="section-title">SONG AND PLAYLIST</h2>
+        <div class="song-lineup">
+            <iframe
+                style="border-radius:20px"
+                src="https://open.spotify.com/embed/playlist/5WIQRSufgkaC6PIi5ScPb6?utm_source=generator&theme=0"
+                width="500"
+                height="352"
+                frameborder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy">
+            </iframe>
+        </div>
+    </section>
+
+    <audio id="bg-music" autoplay loop>
+        <source src="C:\Users\andik\Downloads\citra\music\soundtrack.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        const introScreen = document.getElementById("intro-screen");
+        const openBtn = document.getElementById("open-btn");
+        const music = document.getElementById("bg-music");
+        
+        openBtn.addEventListener("click", () => {
+            introScreen.classList.add("hide-intro");
+            try {
+                if(music) {
+                    music.play().catch(error => console.log("Lagu belum siap:", error));
+                }
+            } catch(e) {
+                console.log("Error audio:", e);
+            }
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
